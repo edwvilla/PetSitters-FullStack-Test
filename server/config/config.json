@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "evilla",
+    "password": "12345",
+    "database": "PetSitter",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "evilla",
+    "password": "12345",
+    "database": "PetSitter",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "evilla",
+    "password": "12345",
+    "database": "PetSitter",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
