@@ -12,6 +12,7 @@ import API from "../../services";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../Theme/Theme";
 import SearchContainer from "../../components/SearchContainer/SearchContainer";
+import "./Root.module.css";
 
 export default function Root() {
   return (

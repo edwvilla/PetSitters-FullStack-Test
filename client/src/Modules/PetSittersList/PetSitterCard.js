@@ -12,6 +12,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import { Button } from "@mui/material";
 import StarRatings from "react-star-ratings";
 import { petNameToEmoji } from "../../utils/functions";
+import { Get } from "react-axios";
 
 export default function PetSitterCard({ petsitter }) {
   const goToProfile = () => {
