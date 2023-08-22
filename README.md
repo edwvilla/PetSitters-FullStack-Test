@@ -2,6 +2,12 @@
 
 ## Instrucciones para correr el proyecto
 
+### Requisitos
+
+- Docker
+
+  Recomiendo instalar docker desktop, ya que incluye docker-compose, que es lo que se necesita para correr el proyecto.
+
 Clonar el repositorio y desde la carpeta raíz ejecutar el siguiente comando:
 
 `docker-compose up --build`
