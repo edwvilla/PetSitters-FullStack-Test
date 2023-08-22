@@ -19,7 +19,6 @@ const errorToSpanish = (string) => {
 
 export default function Error() {
   const { error } = useRouteError();
-  console.log(error);
 
   const errorMessages = errorToSpanish(error.message || error.statusText);
 

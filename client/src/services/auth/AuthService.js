@@ -1,10 +1,5 @@
 import API from "..";
 
-const ping = async () =>
-  await API.get("/").then((response) => {
-    console.log(response);
-  });
-
 const login = ({ email, password }) =>
   API.post("/auth/login", { email, password });
 
@@ -18,4 +13,9 @@ const signup = async ({ name, lastName, Address, email, Phone, password }) =>
     password: password,
   });
 
-export { login, signup, ping };
+const logout = async () => {
+  localStorage.removeItem("token");
+  window.location.href = "/";
+};
+
+export { login, signup, logout };

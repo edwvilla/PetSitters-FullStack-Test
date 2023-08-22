@@ -13,14 +13,16 @@ import logoutRouter from "./controllers/auth/logout.js";
 import petsitterRouter from "./controllers/petsitter/index.js";
 import petSitterPetTypesRelations from "./controllers/petsitters_pettypes_relation/index.js";
 import reviewRouter from "./controllers/reviews/index.js";
+import cityRouter from "./controllers/city/index.js";
 
 import { connectToMySQL, sequelize } from "./database/mysql/index.js";
 import { connectToMongoDB } from "./database/mongo/index.js";
-import passportConfig from "./controllers/auth/passport_config.js";
 import {
   checkAuthentication,
   checkNotAuthentication,
 } from "./controllers/auth/middleware.js";
+
+import validateToken from "./middlewares/validateToken.js";
 
 connectToMySQL();
 connectToMongoDB();
@@ -45,19 +47,19 @@ app.use(
     store: sequelize.sessionStore,
   })
 );
-app.use(passportConfig.authenticate("session"));
 
 // ----- ROUTES ----- //
 
-app.use("/auth", checkNotAuthentication, authRouter);
-app.use("/logout", checkAuthentication, logoutRouter);
-app.use("/petsitter", checkAuthentication, petsitterRouter);
+app.use("/auth", authRouter);
+app.use("/logout", logoutRouter);
+app.use("/petsitter", validateToken, petsitterRouter);
 app.use(
   "/petsitter_pettypes_relation",
-  checkAuthentication,
+  validateToken,
   petSitterPetTypesRelations
 );
-app.use("/review", checkAuthentication, reviewRouter);
+app.use("/review", validateToken, reviewRouter);
+app.use("/city", validateToken, cityRouter);
 
 app.use("/", (req, res) => {
   res.send({ message: "Welcome to PetSitter API" });

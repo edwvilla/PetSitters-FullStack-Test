@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 import authReducer from "./reducers/authSlice";
+import searchReducer from "./reducers/searchSlice";
 
 const localStorageMiddleware = ({ getState }) => {
   return (next) => (action) => {
@@ -16,7 +17,6 @@ const loadFromLocalStorage = () => {
     if (serializedState === null) return undefined;
     return JSON.parse(serializedState);
   } catch (error) {
-    console.log(error);
     return undefined;
   }
 };
@@ -24,6 +24,7 @@ const loadFromLocalStorage = () => {
 const store = configureStore({
   reducer: combineReducers({
     auth: authReducer,
+    search: searchReducer,
   }),
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(localStorageMiddleware),

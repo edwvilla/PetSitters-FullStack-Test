@@ -19,31 +19,25 @@ const handleSignUp = async (event) => {
     showToastError("La contraseña debe tener al menos 8 caracteres");
     return;
   }
-  await signup({
-    name: data.get("firstName"),
-    lastName: data.get("lastName"),
-    Address: data.get("Address"),
-    Phone: data.get("Phone"),
-    email: data.get("email"),
-    password: data.get("password"),
-  })
-    .then((response) => {
-      showToastSignedUp();
-      console.log(response);
-      login({
-        email: data.get("email"),
-        password: data.get("password"),
-      })
-        .then((response) => {
-          window.location.href = "/";
-        })
-        .catch((error) => {
-          showToastError(error.response.data.message);
-        });
-    })
-    .catch((error) => {
-      showToastError(error.response.data.message);
+
+  try {
+    await signup({
+      name: data.get("firstName"),
+      lastName: data.get("lastName"),
+      Address: data.get("Address"),
+      Phone: data.get("Phone"),
+      email: data.get("email"),
+      password: data.get("password"),
     });
+
+    showToastSignedUp();
+    return await login({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
+  } catch (error) {
+    showToastError(error.response.data.message);
+  }
 };
 
 export default handleSignUp;

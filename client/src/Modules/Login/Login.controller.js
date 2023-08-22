@@ -1,10 +1,6 @@
 import { login } from "../../services/auth/AuthService";
 import { toast } from "react-toastify";
-import router from "../index.js";
 
-const showToastLoggedin = () => {
-  toast.success("Inicio de sesión exitoso");
-};
 const showToastError = (message) => {
   toast.error("Error al iniciar sesión, " + message);
 };
@@ -17,7 +13,6 @@ const handleLogin = async (event) => {
       password: data.get("password"),
     });
   } catch (error) {
-    console.log(error);
     showToastError(error.response.data.message);
   }
 };

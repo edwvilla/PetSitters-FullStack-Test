@@ -1,10 +1,13 @@
 import axios from "axios";
 import BASE_URL from "./base_url";
 
-// configures axios to use the base URL and port of our backend
+export const accessToken = localStorage.getItem("token");
 
 const API = axios.create({
   baseURL: BASE_URL,
+  headers: {
+    accessToken: accessToken,
+  },
 });
 
 export default API;

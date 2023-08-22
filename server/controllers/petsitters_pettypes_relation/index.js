@@ -5,30 +5,31 @@ import PetsType from "../../models/pettypes/index.js";
 const router = Router();
 
 // CREATE
-router.post("/", (req, res) => {
-  // check duplicates
-  const checkDups = PetSitterPetTypesRelation.findOne({
-    where: {
-      petsitterid: req.body.petSitterId,
-      pettypeid: req.body.petTypeId,
-    },
-  })
-    .then((petsitter_pettypes_relation) => {
-      if (petsitter_pettypes_relation) {
-        return true;
-      }
-      return false;
-    })
-    .catch((err) => {
-      res.status(500).send(err);
+router.post("/", async (req, res) => {
+  var checkDups = false;
+  try {
+    const petSitterEntries = await PetSitterPetTypesRelation.findAll({
+      where: {
+        petSitterID: req.body.petSitterID,
+      },
     });
+    checkDups = petSitterEntries.find(
+      (entry) => entry.petTypeID === req.body.petTypeID
+    );
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      message: "Error while checking duplicates",
+    });
+  }
+
   if (checkDups) {
     return res.status(500).send({
       message: "Duplicate entry",
     });
   }
 
-  PetSitterPetTypesRelation.upsert(req.body)
+  PetSitterPetTypesRelation.create(req.body)
     .then((petsitter_pettypes_relation) => {
       res.json(petsitter_pettypes_relation);
     })

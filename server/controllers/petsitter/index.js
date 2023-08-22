@@ -1,6 +1,7 @@
 import { Router } from "express";
 import PetSitter from "../../models/petsitter/index.js";
 import City from "../../models/city/index.js";
+import State from "../../models/state/index.js";
 
 const router = Router();
 
@@ -56,6 +57,61 @@ router.get("/", (req, res) => {
     .catch((err) => {
       res.status(500).send(err);
     });
+});
+
+// LIST ALL WITH CITY AND STATE
+router.get("/withlocations", async (req, res) => {
+  try {
+    const states = await State.findAll();
+    const cities = await City.findAll();
+    const petSitters = await PetSitter.findAll();
+
+    const newPetSitters = petSitters.map((petsitter) => {
+      const city = cities.find((city) => city.id === petsitter.cityID);
+      const state = states.find((state) => state.id === city.stateID);
+      return {
+        ...petsitter.dataValues,
+        city: city.name,
+        cityID: city.id,
+        state: state.name,
+        stateID: state.id,
+      };
+    });
+
+    res.json(newPetSitters);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(err);
+  }
+});
+
+// LIST ONE WITH CITY AND STATE
+router.get("/withlocations/:id", async (req, res) => {
+  try {
+    const states = await State.findAll();
+    const cities = await City.findAll();
+    const petSitter = await PetSitter.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    const city = cities.find((city) => city.id === petSitter.cityID);
+    const state = states.find((state) => state.id === city.stateID);
+
+    const newPetSitter = {
+      ...petSitter.dataValues,
+      city: city.name,
+      cityID: city.id,
+      state: state.name,
+      stateID: state.id,
+    };
+
+    res.json(newPetSitter);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(err);
+  }
 });
 
 // LIST ALL FILTER BY STATEID

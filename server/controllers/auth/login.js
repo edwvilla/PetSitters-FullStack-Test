@@ -1,9 +1,7 @@
-import passportConfig from "./passport_config.js";
 import User from "../../models/user/index.js";
-import passport from "passport";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-const jwtSecret = "secret";
+import { jwtSecret } from "../../config/config.js";
 
 const login = async (req, res) => {
   try {

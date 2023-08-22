@@ -3,26 +3,24 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import handleLogin from "./Login.controller";
 import { useDispatch } from "react-redux";
-import { login, signup, logout } from "../../store/reducers/authSlice";
+import { login } from "../../store/reducers/authSlice";
 
 export default function Login() {
   const dispatch = useDispatch();
 
   const handleSubmit = async (event) => {
     const res = await handleLogin(event);
-    console.log(res.data);
 
     if (res) {
+      const token = res.data.token;
+      localStorage.setItem("token", token);
       dispatch(login(res.data));
       window.location.href = "/";
     }

@@ -27,4 +27,23 @@ router.get("/petsitter/:id", (req, res) => {
     });
 });
 
+// GET AVERAGE RATING BY PET SITTER ID (mongo)
+router.get("/average/:id", (req, res) => {
+  Review.find({ petSitterID: req.params.id })
+    .then((review) => {
+      let sum = 0;
+      review.forEach((element) => {
+        sum += element.rating;
+      });
+      const average = sum / review.length;
+      res.json({
+        average: average,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send(err);
+    });
+});
+
 export default router;
